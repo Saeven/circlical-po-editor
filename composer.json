@@ -1,0 +1,29 @@
+{
+	"name"        : "saeven/circlical-po-editor",
+	"description" : "Gettext *.PO file editor and parser for PHP.",
+	"type"        : "library",
+	"keywords"    : ["i18n","i10n","po","gettext"],
+	"homepage"    : "https://github.com/saeven/circlical-po-editor",
+	"license"     : "MIT",
+	"authors"     : [
+			{
+				"name": "Alexandre Lemaire",
+				"email": "alemaire@circlical.com",
+				"role" : "developer"
+			}
+	],
+	"support" : {
+		"issues" : "https://github.com/saeven/circlical-po-editor/issues"
+	},
+	"require" : {
+		"php": ">=5.3.0"
+	},
+	"require-dev" : {
+		"phpspec/phpspec": "@stable"
+	},
+	"autoload" : {
+		"psr-0" : {
+			"Circlical\\PoEditor": "src/"
+		}
+	}
+}

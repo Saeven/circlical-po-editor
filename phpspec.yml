@@ -1,0 +1,7 @@
+suites:
+    po_parser:
+        namespace: Circlical\PoEditor
+        spec_prefix: Spec
+        src_path: src
+        spec_path: tests
+extensions:

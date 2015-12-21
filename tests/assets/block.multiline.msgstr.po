@@ -1,0 +1,8 @@
+#: ../../classes/controller/ccccc.php:361
+msgid ""
+"%user% acaba de responder tu comentario.<br>Consulta que te ha "
+"dicho %link%aquí</a>."
+msgstr ""
+"%user% acaba de respondre el teu comentari.<br>Consulta que t'ha "
+"dit %link%aquí"
+"dit %link%aquífsdf</a>."

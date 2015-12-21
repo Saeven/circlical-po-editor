@@ -1,0 +1,5 @@
+#: This comment comes first
+#: This comment comes second
+msgctxt "Howdy"
+msgid "Welcome"
+msgstr "Hola"

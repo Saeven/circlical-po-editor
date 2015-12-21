@@ -1,0 +1,4 @@
+#: wp-admin/install.php:177
+msgctxt "Howdy"
+msgid "Choop"
+msgstr "Hola"

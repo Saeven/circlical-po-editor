@@ -1,0 +1,6 @@
+#: ../../classes/xxxxx.php:96 ../../classes/controller/iiiiiii.php:107
+#: ../../classes/controller/yyyyyyy/zzzzzz.php:288
+msgid ""
+"This is the start "
+"and this is the end."
+msgstr "Has d'indicar un nom."
