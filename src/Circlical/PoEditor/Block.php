@@ -76,7 +76,7 @@ class Block
 				case 'msgid':
 				case 'msgstr':
 				case 'msgid_plural':
-					$this->$car[] = $clean_string;
+					array_push( $this->$car, $clean_string );
 					break;
 			}
 		}
