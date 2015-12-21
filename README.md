@@ -1,4 +1,6 @@
 # PHP Gettext Translation Editor
+[![Build Status](https://travis-ci.org/Saeven/circlical-po-editor.svg?branch=master)](https://travis-ci.org/Saeven/circlical-po-editor)
+
 PHP Parser/Editor for Gettext PO files
 
 PoEditor is a class that allows you to load / parse / manipulate / compile .po files using PHP.  I built this to support a web-based PO file editor.
