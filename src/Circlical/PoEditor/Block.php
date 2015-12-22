@@ -219,6 +219,31 @@ class Block
 		$this->msgstr_plural = $msgstr_plural;
 	}
 
+
+	/**
+	 * @return array
+	 */
+	public function getPluralForm( $key )
+	{
+		return $this->msgstr_plural[$key] ?: "";
+	}
+
+	/**
+	 * Sets a particular plural message key
+	 * @param int $key The plural form being set
+	 * @param string|array $plural The plural string
+	 */
+	public function setPluralForm( $key, $plural )
+	{
+		if( !is_array( $plural ) )
+			$plural = [ $plural ];
+
+		if( !$this->msgstr_plural )
+			$this->msgstr_plural = [];
+
+		$this->msgstr_plural[$key] = $plural;
+	}
+
 	/**
 	 * @return array
 	 */
