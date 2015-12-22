@@ -34,8 +34,23 @@ class PoEditor
 	/**
 	 * @param Block $block
 	 */
-	public function addBlock( Block $block ){
+	public function addBlock( Block $block )
+	{
 		$this->blocks[$block->getKey()] = $block;
+	}
+
+	/**
+	 * Get a block that has the same key as the block you pass in
+	 * @param Block $block
+	 * @return Block|null
+	 */
+	public function getBlockLike( Block $block )
+	{
+		return $this->blocks[$block->getKey()] ?: null;
+	}
+
+	public function getBlockWithKey( $key ){
+		return $this->blocks[$key] ?: null;
 	}
 
 
