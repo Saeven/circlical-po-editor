@@ -5,11 +5,21 @@ namespace Circlical\PoEditor;
 class PoEditor
 {
 
+	/**
+	 * The source .po file that this editor is manipulating
+	 * @var string
+	 */
 	private $source_file;
 
-	/** @var Block[] */
+	/**
+	 * @var Block[]
+	 */
 	private $blocks;
 
+	/**
+	 * Return all parsed blocks
+	 * @return array|Block[]
+	 */
 	public function getBlocks(){
 		return $this->blocks;
 	}
@@ -42,25 +52,35 @@ class PoEditor
 	/**
 	 * Get a block that has the same key as the block you pass in
 	 * @param Block $block
-	 * @return Block|null
+	 * @return Block
 	 */
 	public function getBlockLike( Block $block )
 	{
 		return $this->blocks[$block->getKey()] ?: null;
 	}
 
+	/**
+	 * Fetch a block using a compiled key
+	 * @param $key
+	 * @return Block
+	 */
 	public function getBlockWithKey( $key ){
 		return $this->blocks[$key] ?: null;
 	}
 
 
+	/**
+	 * @param $msgid
+	 * @param null $context
+	 * @return Block
+	 */
 	public function getBlock( $msgid, $context = null )
 	{
 		if( is_array( $msgid ) )
 			$msgid = implode( " ", $msgid );
 
 		$key = json_encode([ 'context' => $context, 'id' => $msgid ]);
-		return $this->blocks[$key];
+		return $this->getBlockWithKey( $key );
 	}
 
 	public function __construct( $source_file = null )
@@ -116,6 +136,10 @@ class PoEditor
 	}
 
 
+	/**
+	 * Take all parsed blocks, and compile their final guise.  Essentially returns the contents of a .po file.
+	 * @return string
+	 */
 	public function compile()
 	{
 		$compiled_blocks = [];
