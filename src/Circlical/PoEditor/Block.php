@@ -206,6 +206,22 @@ class Block
 	/**
 	 * @return array
 	 */
+	public function getMsgstrPlural()
+	{
+		return $this->msgstr_plural;
+	}
+
+	/**
+	 * @param array $msgstr_plural
+	 */
+	public function setMsgstrPlural( $msgstr_plural )
+	{
+		$this->msgstr_plural = $msgstr_plural;
+	}
+
+	/**
+	 * @return array
+	 */
 	public function getComments()
 	{
 		return $this->comments;
@@ -238,7 +254,10 @@ class Block
 		$this->initialized = $initialized;
 	}
 
-
+	/**
+	 * Return a compiled key that is a function of context (msgctxt) and id (msgid)
+	 * @return string
+	 */
 	public function getKey()
 	{
 		return json_encode([ 'context' => $this->msgctxt, 'id' => implode( " ", $this->getMsgid()) ]);
