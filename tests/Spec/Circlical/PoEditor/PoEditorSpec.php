@@ -47,6 +47,22 @@ class PoEditorSpec extends ObjectBehavior
         $str->shouldBeEqualTo( $orig );
     }
 
+    private function compile_test_with_output( $source )
+    {
+        $file = getcwd() . '/tests/assets/' . $source;
+        $this->setSourceFile( $file );
+        $this->parse();
+        $str = $this->compile();
+        $str->shouldBeString();
+
+        $orig = file_get_contents( $file );
+
+        file_put_contents( getcwd() . '/compiled.txt', $str->getWrappedObject() );
+        file_put_contents( getcwd() . '/orig.txt', $orig );
+
+        $str->shouldBeEqualTo( $orig );
+    }
+
     function it_compiles()
     {
         $this->compile_test( 'healthy.po' );

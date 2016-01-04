@@ -92,6 +92,10 @@ class Block
 	 */
 	public function compile()
     {
+	    // can happen if it parses only comments/artifacts
+	    if( !count( $this->msgid ) )
+		    return "";
+
 		$str  = "";
 	    if( $this->comments )
 		    $str .= implode( self::NEWLINE, $this->comments ) . self::NEWLINE;
