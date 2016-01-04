@@ -1,0 +1,29 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-12-30 22:00-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: /tmp/cache/56849a63d5c35/66/66ca15c53c5330bda65ee645c30431885e06a8112ff8c4b72d86d665695a3c77.php:19
+msgid "abc"
+msgstr ""
+
+#: /tmp/cache/56849a63d5c35/66/66ca15c53c5330bda65ee645c30431885e06a8112ff8c4b72d86d665695a3c77.php:24
+msgid "there is 1 thing"
+msgid_plural "there are %f% things"
+msgstr[0] ""
+msgstr[1] ""

@@ -12,6 +12,10 @@ class HeaderBlock extends Block
 {
 	protected $header_specification = [];
 
+	public function setValue( $key, $value ){
+		$this->header_specification[$key] = $value;
+	}
+
 	public function process( $s )
 	{
 		if( $s[0] == '#' )
@@ -29,7 +33,7 @@ class HeaderBlock extends Block
 		if( substr( $cdr, -2 ) == '\n' )
 			$cdr = substr( $cdr, 0, -2 );
 
-		$this->header_specification[$car] = $cdr;
+		$this->setValue($car,$cdr);
 	}
 
 	public function compile()

@@ -143,4 +143,9 @@ class PoEditorSpec extends ObjectBehavior
         $po_compile = $this->compile();
         $po_compile->shouldBeLike( $after );
     }
+
+    function it_works_with_autogen()
+    {
+        $this->compile_test( 'autogen.po' );
+    }
 }
