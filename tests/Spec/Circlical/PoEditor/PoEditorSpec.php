@@ -164,4 +164,14 @@ class PoEditorSpec extends ObjectBehavior
     {
         $this->compile_test( 'autogen.po' );
     }
+
+    function it_can_deal_with_evil_html()
+    {
+        $this->compile_test( 'evil_html.po' );
+    }
+
+    function it_preserves_double_quotes()
+    {
+        $this->compile_test_with_output( 'quotes.po' );
+    }
 }

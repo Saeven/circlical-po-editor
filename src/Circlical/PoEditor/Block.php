@@ -61,7 +61,9 @@ class Block
 
 	public function processLine( $car, $cdr )
 	{
-		$clean_string = trim( $cdr, '"' );
+		// remove at most one double-quote from a string
+		$clean_string = preg_replace('/^("(.*)")$/', '$2$3', $cdr );
+
 		if( preg_match("/^msgstr\\[(\\d)\\]$/us", $car, $matches ) )
 		{
 			$this->msgstr_plural[$matches[1]][] = $clean_string;
