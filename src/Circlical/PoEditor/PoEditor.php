@@ -65,7 +65,10 @@ class PoEditor
 	 * @return Block
 	 */
 	public function getBlockWithKey( $key ){
-		return $this->blocks[$key] ?: null;
+		if( isset( $this->blocks[$key] ) )
+			return $this->blocks[$key];
+
+		return null;
 	}
 
 
@@ -159,7 +162,7 @@ class PoEditor
 
 
 	public function getKeys(){
-		return array_values( $this->blocks );
+		return array_keys( $this->blocks );
 	}
 
 	/**
