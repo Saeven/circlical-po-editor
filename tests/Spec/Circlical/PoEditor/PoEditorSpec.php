@@ -172,6 +172,16 @@ class PoEditorSpec extends ObjectBehavior
 
     function it_preserves_double_quotes()
     {
-        $this->compile_test_with_output( 'quotes.po' );
+        $this->compile_test( 'quotes.po' );
+    }
+
+    function it_ignores_duplicates()
+    {
+        $file = getcwd() . '/tests/assets/duplicates.po';
+        $this->setSourceFile( $file );
+        $this->parse();
+
+        /** @var PoEditor $this */
+        $this->getBlocks()->shouldHaveCount(3);
     }
 }

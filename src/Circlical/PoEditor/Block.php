@@ -34,51 +34,42 @@ class Block
 	protected $initialized = false;
 
 
-	public function process( $s )
+	public function process($s)
 	{
 		$this->is_initialized = true;
 
 		$s = trim($s);
 
 		// headers are first in the po file, set externally
-		if( $s[0] == '"' )
-		{
-			if( $this->last_processed )
-				$this->processLine( $this->last_processed, $s );
-		}
-		// comments are noted by #
-		else if( $s[0] == '#' )
-		{
+		if ($s[0] == '"') {
+			if ($this->last_processed)
+				$this->processLine($this->last_processed, $s);
+		} // comments are noted by #
+		else if ($s[0] == '#') {
 			$this->comments[] = $s;
-		}
-		// otherwise, process the string within the block
-		else
-		{
-			list( $car, $cdr ) = explode( ' ', $s, 2 );
-			$this->processLine( $car, $cdr );
+		} // otherwise, process the string within the block
+		else {
+			list($car, $cdr) = explode(' ', $s, 2);
+			$this->processLine($car, $cdr);
 		}
 	}
 
-	public function processLine( $car, $cdr )
+	public function processLine($car, $cdr)
 	{
 		// remove at most one double-quote from a string
-		$clean_string = preg_replace('/^("(.*)")$/', '$2$3', $cdr );
+		$clean_string = preg_replace('/^("(.*)")$/', '$2$3', $cdr);
 
-		if( preg_match("/^msgstr\\[(\\d)\\]$/us", $car, $matches ) )
-		{
+		if (preg_match("/^msgstr\\[(\\d)\\]$/us", $car, $matches)) {
 			$this->msgstr_plural[$matches[1]][] = $clean_string;
-		}
-		else
-		{
-			switch( $car )
-			{
+		} else {
+			switch ($car) {
 				case 'msgctxt':
 					$this->msgctxt = $clean_string;
 					break;
 				case 'msgid':
 				case 'msgstr':
 				case 'msgid_plural':
-					array_push( $this->$car, $clean_string );
+					array_push($this->$car, $clean_string);
 					break;
 			}
 		}
@@ -93,46 +84,43 @@ class Block
 	 * @return string
 	 */
 	public function compile()
-    {
-	    // can happen if it parses only comments/artifacts
-	    if( !count( $this->msgid ) )
-		    return "";
+	{
+		// can happen if it parses only comments/artifacts
+		if (!count($this->msgid))
+			return "";
 
-		$str  = "";
-	    if( $this->comments )
-		    $str .= implode( self::NEWLINE, $this->comments ) . self::NEWLINE;
+		$str = "";
+		if ($this->comments)
+			$str .= implode(self::NEWLINE, $this->comments) . self::NEWLINE;
 
-	    if( $this->msgctxt )
-		    $str .= 'msgctxt "' . $this->msgctxt . '"' . self::NEWLINE;
+		if ($this->msgctxt)
+			$str .= 'msgctxt "' . $this->msgctxt . '"' . self::NEWLINE;
 
-	    $included_blocks = [ 'msgid' ];
-	    if( $this->msgstr_plural )
-		    $included_blocks[] = 'msgid_plural';
-	    else
-		    $included_blocks[] = 'msgstr';
+		$included_blocks = ['msgid'];
+		if ($this->msgstr_plural)
+			$included_blocks[] = 'msgid_plural';
+		else
+			$included_blocks[] = 'msgstr';
 
-	    foreach( $included_blocks as $key )
-	    {
-		    if( is_array( $this->$key ) )
-		    {
-			    $str .= "$key ";
-			    $str .= implode( self::NEWLINE, array_map( [$this, 'quoteWrap'], $this->$key ) ) . self::NEWLINE;
-		    }
-	    }
+		foreach ($included_blocks as $key) {
+			if (is_array($this->$key)) {
+				$str .= "$key ";
+				$str .= implode(self::NEWLINE, array_map([$this, 'quoteWrap'], $this->$key)) . self::NEWLINE;
+			}
+		}
 
-	    if( $this->msgid_plural && $this->msgstr_plural )
-	    {
-		    foreach( $this->msgstr_plural as $plural_key => $plural_message )
-		    {
+		if ($this->msgid_plural && $this->msgstr_plural) {
+			foreach ($this->msgstr_plural as $plural_key => $plural_message) {
 				$str .= 'msgstr[' . $plural_key . '] ';
-			    $str .= implode( self::NEWLINE, array_map( [$this, 'quoteWrap'], $plural_message ) ) . self::NEWLINE;
-		    }
-	    }
+				$str .= implode(self::NEWLINE, array_map([$this, 'quoteWrap'], $plural_message)) . self::NEWLINE;
+			}
+		}
 
-	    return trim( $str );
-    }
+		return trim($str);
+	}
 
-	private function quoteWrap( $str ){
+	private function quoteWrap($str)
+	{
 		return '"' . $str . '"';
 	}
 
@@ -147,10 +135,10 @@ class Block
 	/**
 	 * @param array $msgid
 	 */
-	public function setMsgid( $msgid )
+	public function setMsgid($msgid)
 	{
-		if( !is_array( $msgid ) )
-			$msgid = [ $msgid ];
+		if (!is_array($msgid))
+			$msgid = [$msgid];
 
 		$this->msgid = $msgid;
 	}
@@ -166,10 +154,10 @@ class Block
 	/**
 	 * @param array $msgid_plural
 	 */
-	public function setMsgidPlural( $msgid_plural )
+	public function setMsgidPlural($msgid_plural)
 	{
-		if( !is_array( $msgid_plural ) )
-			$msgid_plural = [ $msgid_plural ];
+		if (!is_array($msgid_plural))
+			$msgid_plural = [$msgid_plural];
 
 		$this->msgid_plural = $msgid_plural;
 	}
@@ -185,10 +173,10 @@ class Block
 	/**
 	 * @param array $msgstr
 	 */
-	public function setMsgstr( $msgstr )
+	public function setMsgstr($msgstr)
 	{
-		if( !is_array( $msgstr ) )
-			$msgstr = [ $msgstr ];
+		if (!is_array($msgstr))
+			$msgstr = [$msgstr];
 
 		$this->msgstr = $msgstr;
 	}
@@ -204,7 +192,7 @@ class Block
 	/**
 	 * @param mixed $msgctxt
 	 */
-	public function setMsgctxt( $msgctxt )
+	public function setMsgctxt($msgctxt)
 	{
 		$this->msgctxt = $msgctxt;
 	}
@@ -220,7 +208,7 @@ class Block
 	/**
 	 * @param array $msgstr_plural
 	 */
-	public function setMsgstrPlural( $msgstr_plural )
+	public function setMsgstrPlural($msgstr_plural)
 	{
 		$this->msgstr_plural = $msgstr_plural;
 	}
@@ -229,7 +217,7 @@ class Block
 	/**
 	 * @return array
 	 */
-	public function getPluralForm( $key )
+	public function getPluralForm($key)
 	{
 		return $this->msgstr_plural[$key] ?: "";
 	}
@@ -239,12 +227,12 @@ class Block
 	 * @param int $key The plural form being set
 	 * @param string|array $plural The plural string
 	 */
-	public function setPluralForm( $key, $plural )
+	public function setPluralForm($key, $plural)
 	{
-		if( !is_array( $plural ) )
-			$plural = [ $plural ];
+		if (!is_array($plural))
+			$plural = [$plural];
 
-		if( !$this->msgstr_plural )
+		if (!$this->msgstr_plural)
 			$this->msgstr_plural = [];
 
 		$this->msgstr_plural[$key] = $plural;
@@ -261,10 +249,10 @@ class Block
 	/**
 	 * @param array $comment
 	 */
-	public function setComments( $comment )
+	public function setComments($comment)
 	{
-		if( !is_array( $comment ) )
-			$comment = [ $comment ];
+		if (!is_array($comment))
+			$comment = [$comment];
 
 		$this->comments = $comment;
 	}
@@ -280,7 +268,7 @@ class Block
 	/**
 	 * @param boolean $initialized
 	 */
-	public function setInitialized( $initialized )
+	public function setInitialized($initialized)
 	{
 		$this->initialized = $initialized;
 	}
@@ -291,7 +279,7 @@ class Block
 	 */
 	public function getKey()
 	{
-		return json_encode([ 'context' => $this->msgctxt, 'id' => implode( " ", $this->getMsgid()) ]);
+		return json_encode(['context' => $this->msgctxt, 'id' => implode("", $this->getMsgid())]);
 	}
 
 }

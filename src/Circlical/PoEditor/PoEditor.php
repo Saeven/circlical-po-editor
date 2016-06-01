@@ -20,7 +20,8 @@ class PoEditor
 	 * Return all parsed blocks
 	 * @return array|Block[]
 	 */
-	public function getBlocks(){
+	public function getBlocks()
+	{
 		return $this->blocks;
 	}
 
@@ -28,14 +29,13 @@ class PoEditor
 	 * Remove a block from the list
 	 * @param $spec
 	 */
-	public function removeBlock( $spec ){
-		if( $spec instanceof Block )
+	public function removeBlock($spec)
+	{
+		if ($spec instanceof Block)
 			$spec = $spec->getKey();
 
-		if( is_string( $spec ) )
-		{
-			if( $this->blocks[$spec] )
-			{
+		if (is_string($spec)) {
+			if ($this->blocks[$spec]) {
 				unset($this->blocks[$spec]);
 			}
 		}
@@ -44,7 +44,7 @@ class PoEditor
 	/**
 	 * @param Block $block
 	 */
-	public function addBlock( Block $block )
+	public function addBlock(Block $block)
 	{
 		$this->blocks[$block->getKey()] = $block;
 	}
@@ -54,7 +54,7 @@ class PoEditor
 	 * @param Block $block
 	 * @return Block
 	 */
-	public function getBlockLike( Block $block )
+	public function getBlockLike(Block $block)
 	{
 		return $this->blocks[$block->getKey()] ?: null;
 	}
@@ -64,8 +64,9 @@ class PoEditor
 	 * @param $key
 	 * @return Block
 	 */
-	public function getBlockWithKey( $key ){
-		if( isset( $this->blocks[$key] ) )
+	public function getBlockWithKey($key)
+	{
+		if (isset($this->blocks[$key]))
 			return $this->blocks[$key];
 
 		return null;
@@ -77,16 +78,16 @@ class PoEditor
 	 * @param null $context
 	 * @return Block
 	 */
-	public function getBlock( $msgid, $context = null )
+	public function getBlock($msgid, $context = null)
 	{
-		if( is_array( $msgid ) )
-			$msgid = implode( " ", $msgid );
+		if (is_array($msgid))
+			$msgid = implode(" ", $msgid);
 
-		$key = json_encode([ 'context' => $context, 'id' => $msgid ]);
-		return $this->getBlockWithKey( $key );
+		$key = json_encode(['context' => $context, 'id' => $msgid]);
+		return $this->getBlockWithKey($key);
 	}
 
-	public function __construct( $source_file = null )
+	public function __construct($source_file = null)
 	{
 		$this->source_file = $source_file;
 		$this->blocks = [];
@@ -101,39 +102,31 @@ class PoEditor
 		$currentBlock = null;
 
 		// first, discover if we are header-less
-		while( !feof($handle) )
-		{
-			$line = fgets( $handle );
-			if( preg_match("/^msgid (.*?)$/us", $line, $match) )
-			{
+		while (!feof($handle)) {
+			$line = fgets($handle);
+			if (preg_match("/^msgid (.*?)$/us", $line, $match)) {
 				// initialize the parser, rewind and break
 				$currentBlock = $match[1] == '""' ? new HeaderBlock() : new Block();
-				rewind( $handle );
+				rewind($handle);
 				break;
 			}
 		}
 
 		// run the actual parser
-		while (!feof($handle))
-		{
-		    $line = fgets($handle);
-		    if (trim($line) == '')
-		    {
-		        if ($currentBlock)
-		        {
-		            $this->addBlock($currentBlock);
-		            $currentBlock = new Block();
-		        }
-		    }
-		    else
-		    {
-		        $currentBlock->process( $line );
-		    }
+		while (!feof($handle)) {
+			$line = fgets($handle);
+			if (trim($line) == '') {
+				if ($currentBlock) {
+					$this->addBlock($currentBlock);
+					$currentBlock = new Block();
+				}
+			} else {
+				$currentBlock->process($line);
+			}
 		}
 		fclose($handle);
 
-		if ($currentBlock && $currentBlock->isInitialized())
-		{
+		if ($currentBlock && $currentBlock->isInitialized()) {
 			$this->addBlock($currentBlock);
 		}
 	}
@@ -146,9 +139,9 @@ class PoEditor
 	public function compile()
 	{
 		$compiled_blocks = [];
-		foreach( $this->blocks as $key => $block )
+		foreach ($this->blocks as $key => $block)
 			$compiled_blocks[] = $block->compile();
-		return implode( "\n\n", $compiled_blocks ) . "\n";
+		return implode("\n\n", $compiled_blocks) . "\n";
 	}
 
 
@@ -161,14 +154,15 @@ class PoEditor
 	}
 
 
-	public function getKeys(){
-		return array_keys( $this->blocks );
+	public function getKeys()
+	{
+		return array_keys($this->blocks);
 	}
 
 	/**
 	 * @param null $source_file
 	 */
-	public function setSourceFile( $source_file )
+	public function setSourceFile($source_file)
 	{
 		$this->source_file = $source_file;
 	}
